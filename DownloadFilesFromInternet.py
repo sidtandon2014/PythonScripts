@@ -88,7 +88,7 @@ class ConvertToCSV (threading.Thread):
       self.fileNameWithoutExt = fileNameWithoutExt
       
    def run(self):
-      self.data.to_csv(path.join(self.destinationFolder, self.fileNameWithoutExt + ".csv"))
+      self.data.to_csv(path.join(self.destinationFolder, self.fileNameWithoutExt + ".csv"),index = False)
       
 for root, directories, files in os.walk("F:\Sid\Learnings\Python\Scripts"):
     for filename in files:
@@ -97,13 +97,10 @@ for root, directories, files in os.walk("F:\Sid\Learnings\Python\Scripts"):
             filepath = os.path.join(root, filename)
             zf = zipfile.ZipFile(filepath) # having First.csv zipped file.
             df = pd.read_csv(zf.open(filename.split(".")[0] + ".csv")) 
-            df.loc[:,"filename"] = filename
             #df.to_csv(path.join("F:\Sid\Learnings\Python\Scripts\Data", filename.split(".")[0] + ".csv"))
             
             fileNameWithoutExt = filename.split(".")[0]
             print("Starting thread for filename: " + fileNameWithoutExt)
-            myThread = ConvertToCSV(df,fileNameWithoutExt,"F:\Sid\Learnings\Python\Scripts\Data1")
+            myThread = ConvertToCSV(df,fileNameWithoutExt,"F:\Sid\Learnings\Python\Scripts\Data")
             myThread.start()
-            
-            print("Exiting main thread")
             
